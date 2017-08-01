@@ -7,11 +7,11 @@
 #
 
 ## Colors
-WARNING='\E[1;33m'
-NOTE='\E[1;36m'
-SUCCESS='\E[1;32m'
-FAILURE='\E[1;35m'
-RES='\E[0m'
+WARNING='\033[1;33m'
+NOTE='\033[1;36m'
+SUCCESS='\033[1;32m'
+FAILURE='\033[1;35m'
+RES='\033[0m'
 
 ## Usage
 if [ $# -lt 1 ] 
@@ -26,7 +26,7 @@ then
     echo ""
 
     echo -e "${WARNING}Demo:${RES}"
-    echo "    phalapi-buildap fun"
+    echo "    $0 fun"
     echo  ""
 
     echo -e "${WARNING}Tips:${RES}"
@@ -88,8 +88,11 @@ cp $BASE_PATH/../Public/demo/checkApiParams.php $BASE_PATH/../Public/$PUBLIC_APP
 cp $BASE_PATH/../Public/demo/listAllApis.php $BASE_PATH/../Public/$PUBLIC_APP_NAME/
 cp $BASE_PATH/../Public/demo/index.php $BASE_PATH/../Public/$PUBLIC_APP_NAME/
 
-sed "s/Demo/$APP_NAME/g" $BASE_PATH/../Public/$PUBLIC_APP_NAME/*.php -i
-sed "s/Demo/$APP_NAME/g" $BASE_PATH/../$APP_NAME/Tests/*.php -i
+#MacOS support 与GNU SED兼容, bugfixed by x2x4
+sed -i .bk -e "s/Demo/$APP_NAME/g" $BASE_PATH/../Public/$PUBLIC_APP_NAME/*.php
+rm -r $BASE_PATH/../Public/$PUBLIC_APP_NAME/*.bk
+sed -i .bk -e "s/Demo/$APP_NAME/g" $BASE_PATH/../$APP_NAME/Tests/*.php
+rm -r $BASE_PATH/../$APP_NAME/Tests/*.bk
 
 echo ""
 echo -e "${SUCCESS}OK! ${APP_NAME} has been created successfully!${RES}"
