@@ -31,12 +31,16 @@ class Api_User_User extends PhalApi_Api{
     /**
      * 用户注册
      * @desc 免鉴权接口
-     * @return int code 操作码0：成功，1：失败
+     * @return int code 操作码0：成功，1：失败 ,2:用户名或昵称已存在
      * @return string msg 提示信息
      */
     public function add(){
         $rs = ['code' => 0, 'msg' => 'success'];
         $re = self::$Domain->add($this);
+
+        if($re==2){
+            $rs = ['code' => 2, 'msg' => '用户名或昵称已存在'];
+        }
         if ($re === false) {
             DI()->logger->debug('User_User.add error', $this);
             $rs['code'] = 1;

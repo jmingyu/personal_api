@@ -22,6 +22,10 @@ class Domain_User_User{
             'nickname' => $data->nickname,
             'password' => MD5($data->password)
         ];
+
+        if(!self::$Model->getOne([' username = ? OR nickname = ? '=>[$data->username,$data->nickname]])){
+            return 2;
+        }
         return self::$Model->add($params);
     }
 
