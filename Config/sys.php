@@ -12,10 +12,11 @@ return array(
 	/**
 	 * MC缓存服务器参考配置
 	 */
-	 'mc' => array(
+    'mc' => array(
         'host' => '127.0.0.1',
         'port' => 11211,
-	 ),
+        'prefix' => 'blog_',
+    ),
 
     /**
      * 加密

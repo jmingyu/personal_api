@@ -41,8 +41,7 @@ DI()->logger = new PhalApi_Logger_File(API_ROOT . '/Runtime', PhalApi_Logger::LO
 // 数据操作 - 基于NotORM
 DI()->notorm = new PhalApi_DB_NotORM(DI()->config->get('dbs'), DI()->debug);
 
-//redis
-DI()->redis = new Redis_Lite(DI()->config->get('app.redis.servers'));
+
 // 翻译语言包设定
 SL('zh_cn');
 
@@ -53,12 +52,14 @@ SL('zh_cn');
 DI()->filter = 'PhalApi_Filter_SimpleMD5';
  */
 
-/**
+//redis
+DI()->redis = new Redis_Lite(DI()->config->get('app.redis.servers'));
+
 // 缓存 - Memcache/Memcached
 DI()->cache = function () {
     return new PhalApi_Cache_Memcache(DI()->config->get('sys.mc'));
 };
- */
+
 
 /**
 // 支持JsonP的返回

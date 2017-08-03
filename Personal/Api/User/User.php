@@ -24,6 +24,11 @@ class Api_User_User extends PhalApi_Api{
                 'password' => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
                 'nickname' => ['name'=>'nickname','type'=>'string','min'=>6,'max'=>16,'require' => true,'desc' => '昵称'],
             ],
+            'login'=>[
+                'username' => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
+                'password' => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
+//                'idcode'   => ['name'=>'idcode','require' => true,'desc' => '验证码token'],
+            ],
         ];
     }
 
@@ -48,5 +53,17 @@ class Api_User_User extends PhalApi_Api{
         }
 
         return $rs;
+    }
+
+    /**
+     * 用户登陆
+     * @desc 免鉴权接口
+     * @return int    code      操作码 0：成功，1：帐号或密码错误 ,2:两小时输错密码五次
+     * @return string msg       提示信息
+     * @return int    uid       用户id
+     * @return string token     登陆令牌
+     */
+    public function login(){
+        return self::$Domain->login($this);
     }
 }
