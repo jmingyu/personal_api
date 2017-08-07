@@ -63,5 +63,9 @@ class Domain_User_User{
 
     }
 
+    public function isLogin($data){
+
+    }
+
 
 }

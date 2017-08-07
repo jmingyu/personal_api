@@ -29,6 +29,12 @@ class Api_User_User extends PhalApi_Api{
                 'password' => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
 //                'idcode'   => ['name'=>'idcode','require' => true,'desc' => '验证码token'],
             ],
+            'isLogin'=>[
+                'isLogin' => [
+                    'uid' => ['name' => 'userid', 'type' => 'int', 'min' => 1, 'require' => true, 'desc' => '用户ID'],
+//                    'token' => ['name' => 'token', 'require' => true, 'desc' => '登录成功后服务端返回给客户端的令牌'],
+                ],
+            ],
         ];
     }
 
@@ -66,4 +72,17 @@ class Api_User_User extends PhalApi_Api{
     public function login(){
         return self::$Domain->login($this);
     }
+
+    /**
+     * 检测用户是否登陆
+     * @desc 免鉴权接口
+     * @return int    code      操作码 0：已登录，1：未登录
+     * @return string msg       提示信息
+     */
+    public function isLogin(){
+        $rs = ['code' => 0, 'msg' => 'success'];
+        return self::$Domain->isLogin($this);
+    }
+
+
 }
