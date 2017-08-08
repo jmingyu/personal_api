@@ -8,9 +8,12 @@
  */
 class Model_User_User extends Common_Model {
 
-    protected function getTableName($id)
-    {
+    protected function getTableName($id){
         return 'user';
+    }
+
+    public function getCacheByUser($uid){
+        return DI()->cache->get("user_{$uid}");
     }
 
 }

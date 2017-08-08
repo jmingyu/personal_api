@@ -27,13 +27,14 @@ class Api_User_User extends PhalApi_Api{
             'login'=>[
                 'username' => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
                 'password' => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
-//                'idcode'   => ['name'=>'idcode','require' => true,'desc' => '验证码token'],
+                'captchaToken'   => ['name'=>'captchaToken','require' => true,'desc' => '验证码token'],
+                'captcha'   => ['name'=>'captcha','require' => true,'desc' => '验证码'],
             ],
             'isLogin'=>[
-                'isLogin' => [
-                    'uid' => ['name' => 'userid', 'type' => 'int', 'min' => 1, 'require' => true, 'desc' => '用户ID'],
-//                    'token' => ['name' => 'token', 'require' => true, 'desc' => '登录成功后服务端返回给客户端的令牌'],
-                ],
+                'uid' => ['name' => 'uid', 'type' => 'int', 'min' => 1, 'require' => true, 'desc' => '用户ID'],
+                'token' => ['name' => 'token', 'require' => true, 'desc' => '登录成功后服务端返回给客户端的令牌'],
+            ],
+            'getCaptche'=>[
             ],
         ];
     }
@@ -64,7 +65,7 @@ class Api_User_User extends PhalApi_Api{
     /**
      * 用户登陆
      * @desc 免鉴权接口
-     * @return int    code      操作码 0：成功，1：帐号或密码错误 ,2:两小时输错密码五次
+     * @return int    code      操作码 0：成功，1：帐号或密码错误 ,2:两小时输错密码五次,3:验证码错误
      * @return string msg       提示信息
      * @return int    uid       用户id
      * @return string token     登陆令牌
@@ -80,9 +81,28 @@ class Api_User_User extends PhalApi_Api{
      * @return string msg       提示信息
      */
     public function isLogin(){
-        $rs = ['code' => 0, 'msg' => 'success'];
-        return self::$Domain->isLogin($this);
+        $info=self::$Domain->isLogin($this->uid,$this->token);
+        if($info==false){
+            return ['code' => 1, 'msg' => '用户未登录'];
+        }
+        return ['code' => 0, 'msg' => 'success'];
     }
+
+    /**
+     * 获取验证码图片以及验证码token
+     * @desc 免鉴权接口
+     * @return int    code      操作码 0：成功，1：失败
+     * @return string msg       提示信息
+     * @return string img       验证码图片路径
+     * @return string captcheToken       验证码token
+     */
+    public function getCaptche(){
+        $info=self::$Domain->getCaptche();
+
+        return ['code' => 0, 'msg' => 'success','img'=>$info['path'],'captcheToken'=>$info['token']];
+    }
+
+
 
 
 }

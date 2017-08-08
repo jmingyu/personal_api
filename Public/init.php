@@ -47,11 +47,11 @@ SL('zh_cn');
 
 /** ---------------- 定制注册 可选服务组件 ---------------- **/
 
-
+DI()->authLite = new Auth_Lite();
 // 签名验证服务
-DI()->filter = 'PhalApi_Filter_SimpleMD5';
+//DI()->filter = 'PhalApi_Filter_SimpleMD5';
 
-
+DI()->filter='Common_Auth';
 //redis
 DI()->redis = new Redis_Lite(DI()->config->get('app.redis.servers'));
 
@@ -60,7 +60,9 @@ DI()->cache = function () {
     return new PhalApi_Cache_Memcache(DI()->config->get('sys.mc'));
 };
 
-
+DI()->userLite = new User_Lite();
+DI()->tool = 'Common_Tools';
+DI()->captcha=new Captcha_Lite();//验证码
 /**
 // 支持JsonP的返回
 if (!empty($_GET['callback'])) {
