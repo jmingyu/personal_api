@@ -52,7 +52,7 @@ return array(
         'auth_rule' => 'auth_rule', // 权限规则表
         'auth_not_check_user' => [], //跳过权限检测的用户
         'auth_not_check_api' => [
-            'User_User.login','User_User.add','User_User.isLogin','User_User.getCaptche',
+            'User_User.login','User_User.add','User_User.isLogin','User_User.getCaptcha',
             ] //跳过权限检测的接口
     ],
 );

@@ -34,7 +34,7 @@ class Api_User_User extends PhalApi_Api{
                 'uid' => ['name' => 'uid', 'type' => 'int', 'min' => 1, 'require' => true, 'desc' => '用户ID'],
                 'token' => ['name' => 'token', 'require' => true, 'desc' => '登录成功后服务端返回给客户端的令牌'],
             ],
-            'getCaptche'=>[
+            'getCaptcha'=>[
             ],
         ];
     }
@@ -96,8 +96,8 @@ class Api_User_User extends PhalApi_Api{
      * @return string img       验证码图片路径
      * @return string captcheToken       验证码token
      */
-    public function getCaptche(){
-        $info=self::$Domain->getCaptche();
+    public function getCaptcha(){
+        $info=self::$Domain->getCaptcha();
 
         return ['code' => 0, 'msg' => 'success','img'=>$info['path'],'captcheToken'=>$info['token']];
     }

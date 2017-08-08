@@ -83,7 +83,7 @@ class Domain_User_User{
         }
     }
 
-    public function getCaptche(){
+    public function getCaptcha(){
         $info=DI()->captcha->doimg();//生成验证码
 
         $token=md5($info['path'].rand(1,99999).$info['code']);//生成一个唯一的token
