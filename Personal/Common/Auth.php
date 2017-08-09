@@ -2,12 +2,12 @@
 
 class Common_Auth implements PhalApi_Filter
 {
-//    protected $signName;
-//
-//    public function __construct($signName = 'sign')
-//    {
-//        $this->signName = $signName;
-//    }
+    protected $signName;
+
+    public function __construct($signName = 'sign')
+    {
+        $this->signName = $signName;
+    }
 
     public function check()
     {

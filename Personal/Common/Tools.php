@@ -18,4 +18,16 @@ class Common_Tools{
     public function createToken($uid,$password){
         return md5($uid.$password.time().rand(1000,9999));
     }
+
+    /**
+     * 过滤掉数组中非isset的元素
+     * @param array $data
+     * @return array
+     */
+    static public function filter_null(array $data) {
+        $rs = array_filter($data,function($v) {
+            return isset($v)?true:false;
+        });
+        return $rs;
+    }
 }

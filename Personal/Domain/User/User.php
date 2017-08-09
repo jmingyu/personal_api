@@ -65,7 +65,7 @@ class Domain_User_User{
                 return ['code' => 2, 'info' => [], 'msg' => '您尝试的次数已经超过限制，请过一会再尝试吧'];
             }
         }
-        DI()->cache->delete('captcha_' . $data->captchaToken);//登陆成功删除前面的token
+//        DI()->cache->delete('captcha_' . $data->captchaToken);//登陆成功删除前面的token
 
         $token=DI()->tool->createToken($info['uid'],$info['password']);
         DI()->cache->set('user_' . $info['uid'], $token, 86400);
