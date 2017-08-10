@@ -20,19 +20,19 @@ class Api_User_User extends PhalApi_Api{
     {
         return [
             'add'=>[
-                'username' => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
-                'password' => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
-                'nickname' => ['name'=>'nickname','type'=>'string','min'=>6,'max'=>16,'require' => true,'desc' => '昵称'],
+                'username'      => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
+                'password'      => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
+                'nickname'      => ['name'=>'nickname','type'=>'string','min'=>6,'max'=>16,'require' => true,'desc' => '昵称'],
             ],
             'login'=>[
-                'username' => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
-                'password' => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
-                'captchaToken'   => ['name'=>'captchaToken','require' => true,'desc' => '验证码token'],
-                'captcha'   => ['name'=>'captcha','require' => true,'desc' => '验证码'],
+                'username'      => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
+                'password'      => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
+                'captchaToken'  => ['name'=>'captchaToken','require' => true,'desc' => '验证码token'],
+                'captcha'       => ['name'=>'captcha','require' => true,'desc' => '验证码'],
             ],
             'isLogin'=>[
-                'uid' => ['name' => 'uid', 'type' => 'int', 'min' => 1, 'require' => true, 'desc' => '用户ID'],
-                'token' => ['name' => 'token', 'require' => true, 'desc' => '登录成功后服务端返回给客户端的令牌'],
+                'id'            => ['name' => 'id', 'type' => 'int', 'min' => 1, 'require' => true, 'desc' => '用户ID'],
+                'token'         => ['name' => 'token', 'require' => true, 'desc' => '登录成功后服务端返回给客户端的令牌'],
             ],
             'getCaptcha'=>[
             ],
