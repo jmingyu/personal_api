@@ -63,6 +63,7 @@ DI()->cache = function () {
 DI()->userLite = new User_Lite();
 DI()->tool = 'Common_Tools';
 DI()->captcha=new Captcha_Lite();//验证码
+DI()->mail=new PHPMailer_Lite();
 /**
 // 支持JsonP的返回
 if (!empty($_GET['callback'])) {

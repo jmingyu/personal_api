@@ -23,6 +23,7 @@ class Api_User_User extends PhalApi_Api{
                 'username'      => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
                 'password'      => ['name'=>'password','regex' => '/^[0-9A-Za-z]{6,14}$/','require' => true,'desc' => '密码'],
                 'nickname'      => ['name'=>'nickname','type'=>'string','min'=>6,'max'=>16,'require' => true,'desc' => '昵称'],
+                'email'         => ['name'=>'email','regex' => '/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/','require' => true,'desc' => '邮箱'],
             ],
             'login'=>[
                 'username'      => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'require' => true,'desc' => '用户名'],
@@ -35,6 +36,11 @@ class Api_User_User extends PhalApi_Api{
                 'token'         => ['name' => 'token', 'require' => true, 'desc' => '登录成功后服务端返回给客户端的令牌'],
             ],
             'getCaptcha'=>[
+            ],
+            'getUserInfo'=>[
+                'token'     => ['name'=>'token','type'=>'string','require' => true,'desc' => '服务器令牌'],
+                'UserID'    => ['name'=>'userid','type'=>'int','require' => true,'desc' => '用户id'],
+                'uid'       => ['name'=> 'uid', 'require' => true, 'desc' => '查询用户id'],
             ],
         ];
     }
@@ -51,7 +57,7 @@ class Api_User_User extends PhalApi_Api{
         $re = self::$Domain->add($this);
 
         if($re==2){
-            $rs = ['code' => 2, 'msg' => '用户名或昵称已存在'];
+            $rs = ['code' => 2, 'msg' => '用户名或昵称已存在或邮箱已存在'];
         }
         if ($re === false) {
             DI()->logger->debug('User_User.add error', $this);
@@ -100,6 +106,24 @@ class Api_User_User extends PhalApi_Api{
         $info=self::$Domain->getCaptcha();
 
         return ['code' => 0, 'msg' => 'success','img'=>$info['path'],'captcheToken'=>$info['token']];
+    }
+
+    /**
+     * 获取用户信息
+     * @desc 免鉴权接口
+     * @return int    code      操作码 0：成功，1：失败
+     * @return string msg       提示信息
+     * @return object    info                      内容对象数组
+     * @return int       info.id                   文章id
+     * @return string    info.nickname             昵称
+     * @return string    info.avatar               用户头像
+     */
+    public function getUserInfo(){
+        $info=self::$Domain->getUserInfo($this->uid);
+        if($info){
+            return ['code' => 0, 'msg' => 'success','info'=>$info];
+        }
+        return ['code' => 1, 'msg' => '此用户不存在！'];
     }
 
 

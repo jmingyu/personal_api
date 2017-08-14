@@ -21,13 +21,27 @@ class Domain_User_User{
         $params = [
             'username' => $data->username,
             'nickname' => $data->nickname,
-            'password' => MD5($data->password)
+            'password' => MD5($data->password),
+            'email'    => $data->email
         ];
 
-        if(self::$Model->getOne([' username = ? OR nickname = ? '=>[$data->username,$data->nickname]])){
+        if(self::$Model->getOne([' username = ? OR nickname = ? OR  email = ?'=>[$data->username,$data->nickname,$data->email]])){
             return 2;
         }
-        return self::$Model->add($params);
+
+        $id=self::$Model->addUser($params);
+        if(!$id){
+            return false;
+        }
+        $mailToken=MD5(rand(1000000,9999999).$id.time());
+        $data1=[
+            'time'=>date('Y-m-d H:i:s'),
+            'date'=>date('Y年m月d日'),
+            'link'=>'http://www.jmingyu.com/mailvaildate.html?mailToken='.$mailToken.'&uid='.$id,
+        ];
+        DI()->cache->set('ValidateMail_' . $id, $mailToken, 3600);
+        DI()->mail->send($data->email,0,$data1);
+        return 0;
     }
 
     public function login($data){
@@ -91,6 +105,17 @@ class Domain_User_User{
         DI()->cache->set('captcha_' . $token, $info['code'], 900);//生命周期15分钟
 
         return ['path'=>$info['path'],'token'=>$token];
+    }
+
+    public function getUserInfo($uid){
+        $con=['id'=>$uid];
+        $select='id,nickname,avatar,isDel,emailValidate,email';
+        $data=self::$Model->getOne($con,$select);
+        if($data==1){
+            return false;
+        }
+        unset($data['isDel']);
+        return $data;
     }
 
 

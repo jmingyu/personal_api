@@ -16,4 +16,10 @@ class Model_User_User extends Common_Model {
         return DI()->cache->get("user_{$uid}");
     }
 
+    public function addUser($data){
+        $add=$this->getORM();
+        $add->insert($data);
+        return $add->insert_id();
+    }
+
 }
