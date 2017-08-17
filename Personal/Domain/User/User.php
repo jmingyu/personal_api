@@ -37,7 +37,7 @@ class Domain_User_User{
         $data1=[
             'time'=>date('Y-m-d H:i:s'),
             'date'=>date('Y年m月d日'),
-            'link'=>'http://www.jmingyu.com/mailvaildate.html?mailToken='.$mailToken.'&uid='.$id,
+            'link'=>DI()->config->get('app.domain').'mailvaildate.html?mailToken='.$mailToken.'&uid='.$id,
         ];
         DI()->cache->set('ValidateMail_' . $id, $mailToken, 3600);
         DI()->mail->send($data->email,0,$data1);
@@ -116,6 +116,27 @@ class Domain_User_User{
         }
         unset($data['isDel']);
         return $data;
+    }
+
+    public function checkParam($data){
+        if ($data->username){
+            return self::$Model->isExist(['username'=>$data->username]);
+        }
+        if ($data->nickname){
+            return self::$Model->isExist(['nickname'=>$data->nickname]);
+        }
+        if ($data->email){
+            return self::$Model->isExist(['email'=>$data->email]);
+        }
+        return false;
+    }
+
+    public function chagePassword($data){
+        $info=self::$Model->getOne(['id'=>$data->UserID]);
+        if(MD5($data->old)==$info['password']){
+            return self::$Model->edit(['id'=>$data->UserID],['password'=>MD5($data->new)]);
+        }
+        return false;
     }
 
 

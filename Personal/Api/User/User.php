@@ -42,6 +42,17 @@ class Api_User_User extends PhalApi_Api{
                 'UserID'    => ['name'=>'userid','type'=>'int','require' => true,'desc' => '用户id'],
                 'uid'       => ['name'=> 'uid', 'require' => true, 'desc' => '查询用户id'],
             ],
+            'checkParam'=>[
+                'username'      => ['name'=>'username','type'=>'string','min'=>6,'max'=>32,'desc' => '用户名'],
+                'nickname'      => ['name'=>'nickname','type'=>'string','min'=>6,'max'=>16,'desc' => '昵称'],
+                'email'         => ['name'=>'email','regex' => '/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/','desc' => '邮箱'],
+            ],
+            'chagePassword'=>[
+                'token'     => ['name'=>'token','type'=>'string','require' => true,'desc' => '服务器令牌'],
+                'UserID'    => ['name'=>'userid','type'=>'int','require' => true,'desc' => '用户id'],
+                'old'       => ['name'=> 'old', 'require' => true, 'desc' => '旧密码'],
+                'new'       => ['name'=> 'new','regex' => '/^[0-9A-Za-z]{6,14}$/', 'require' => true, 'desc' => '新密码'],
+            ],
         ];
     }
 
@@ -124,6 +135,34 @@ class Api_User_User extends PhalApi_Api{
             return ['code' => 0, 'msg' => 'success','info'=>$info];
         }
         return ['code' => 1, 'msg' => '此用户不存在！'];
+    }
+
+    /**
+     * 根据参数检查是否重复
+     * @desc 免鉴权接口
+     * @return int    code      操作码 0：可用，1：重复
+     * @return string msg       提示信息
+     */
+    public function checkParam(){
+        $info=self::$Domain->checkParam($this);
+        if(!$info){
+            return ['code' => 0, 'msg' => '该参数可用','info'=>$info];
+        }
+        return ['code' => 1, 'msg' => '重复！'];
+    }
+
+    /**
+     * 修改密码
+     * @desc 鉴权接口：普通用户
+     * @return int    code      操作码 0：成功，1：失败
+     * @return string msg       提示信息
+     */
+    public function chagePassword(){
+        $info=self::$Domain->chagePassword($this);
+        if($info){
+            return ['code' => 0, 'msg' => 'success'];
+        }
+        return ['code' => 1, 'msg' => '修改密码失败！'];
     }
 
 

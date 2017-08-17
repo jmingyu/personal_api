@@ -26,6 +26,7 @@ return array(
     ],
 
 //Redis配置项
+    'domain'=>'http://www.jason.com/',//网站地址
     'redis' => [
         //Redis缓存配置项
         'servers'  => [
@@ -54,7 +55,8 @@ return array(
         'auth_rule' => 'auth_rule', // 权限规则表
         'auth_not_check_user' => [], //跳过权限检测的用户
         'auth_not_check_api' => [
-            'User_User.login','User_User.add','User_User.isLogin','User_User.getCaptcha','Article_Article.Detail','Article_Article.getList','User_User.getUserInfo','User_Validate.ValidateMail'
+            'User_User.login','User_User.add','User_User.isLogin','User_User.getCaptcha','Article_Article.Detail','Article_Article.getList','User_User.getUserInfo','User_Validate.ValidateMail',
+            'User_User.checkParam','User_Validate.ChagenPasswordSend','User_Validate.ChagenPasswordReceive',
             ] //跳过权限检测的接口
     ],
 
