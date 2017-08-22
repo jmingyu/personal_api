@@ -44,7 +44,12 @@ return array(
         //使用阻塞式读取队列时的等待时间单位/秒
         'blocking' => 5,
     ],
-
+    'oss'=>[//阿里云oss账户配置
+        'OSS_ACCESS_ID'=>'LTAInDzg4ImObHlv',
+        'OSS_ACCESS_KEY'=>'2wGmbJPEYqEZn1hUXUDTYUMytEi1ZP',
+        'OSS_ENDPOINT'=>'oss.jmingyu.site',
+        'OSS_TEST_BUCKET'=>'417378426',
+    ],
 
 
     'auth' => [
